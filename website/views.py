@@ -17,6 +17,9 @@ def services(request):
 def doctors(request):
 	return render(request, 'doctors.html', {})
 
+def bookings(request):
+	return render(request, 'bookings.html', {})
+
 def contact(request):
 	if request.method == "POST":
 		message_name = request.POST['message-name']
@@ -28,9 +31,10 @@ def contact(request):
 
 		send_mail(
 			message_subject, # subject
-			message, # message
+			"You have recieved this message: \n\n\n" + message + "\n\n\n from " + message_email, # message
 			message_email, # from email
-			['Mncedisi.k13.simelane@gmail.com'], # To email
+			['rrdentistry02@gmail.com'], # To email
+			fail_silently= True,
 			)
 
 		return render(request, 'contact.html', {'message_name': message_name})
@@ -55,14 +59,16 @@ def appointment(request):
 		'appointment_time_': appointment_time_
 		}
 
+
+		appointment_message = " Appointment request for: \n Procedure: "+ service_option_ + "\n Time: "+ appointment_time_ +"\n Date: "+ appointment_date_ + "\n\n\n Client Information: \n Name: "+ appointment_name_ + "\n Phone: " + phone_ + "\n Email address: " + appointment_email_ + " "
 		# send an email
 
-		# send_mail(
-		# 	message_subject, # subject
-		# 	message, # message
-		# 	message_email, # from email
-		# 	['Mncedisi.k13.simelane@gmail.com'], # To email
-		# 	)
+		send_mail(
+			'Appointment Request', # subject
+			appointment_message, # message
+			appointment_email_, # from email
+			['rrdentistry02@gmail.com'], # To email
+			)
 
 		return render(request, 'appointment.html', context)
 
