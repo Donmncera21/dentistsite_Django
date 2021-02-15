@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-
+import django_heroku
+import dj_database_url
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'dentist.urls'
@@ -126,6 +128,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestFilesStorage'
 
 # Email Settings
 
@@ -135,3 +138,6 @@ EMAIL_HOST_USER = 'rrdentistryappointments@gmail.com'
 EMAIL_HOST_PASSWORD = config('password')
 EMAIL_USE_TLS = True
 #EMAIL_USE_SSL = False
+
+
+django_heroku.settings(locals())
